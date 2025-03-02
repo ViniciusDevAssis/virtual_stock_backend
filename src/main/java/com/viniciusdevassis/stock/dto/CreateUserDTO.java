@@ -4,8 +4,6 @@ import com.viniciusdevassis.stock.validators.EmailAvailable;
 import com.viniciusdevassis.stock.validators.Name;
 import com.viniciusdevassis.stock.validators.Password;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 public class CreateUserDTO {
 
