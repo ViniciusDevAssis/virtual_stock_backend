@@ -24,14 +24,12 @@ public class UserService {
     @Autowired
     private UserMapper mapper;
 
-    public List<ResponseUserDTO> getAllUsers(){
-        List<User> users = repository.findAll();
-        return mapper.usersToListDTO(users);
+    public List<User> getAllUsers(){
+        return repository.findAll();
     }
 
-    public ResponseUserDTO getUserById(Long id){
-        User user = repository.findById(id).orElseThrow(() -> new UserNotExistsException(Errors.UEE101));
-        return mapper.userToResponseUserDTO(user);
+    public User getUserById(Long id){
+        return repository.findById(id).orElseThrow(() -> new UserNotExistsException(Errors.UEE101));
     }
 
     public ResponseUserDTO createUser(CreateUserDTO dto){
@@ -41,8 +39,7 @@ public class UserService {
     }
 
     public ResponseUserDTO updateUser(Long id, UpdateUserDTO dto){
-        ResponseUserDTO userDto = getUserById(id);
-        User user = mapper.responseUserDTOToUser(userDto);
+        User user = getUserById(id);
 
         user.setName(dto.getName() != null ? dto.getName() : user.getName());
         user.setEmail(dto.getEmail() != null ? dto.getEmail() : user.getEmail());
@@ -54,16 +51,14 @@ public class UserService {
     }
 
     public void deactivateUserById(Long id){
-        ResponseUserDTO userDto = getUserById(id);
-        User user = mapper.responseUserDTOToUser(userDto);
+        User user = getUserById(id);
 
         user.setStatus(Status.INATIVO);
         repository.save(user);
     }
 
     public void activateUserById(Long id) {
-        ResponseUserDTO userDto = getUserById(id);
-        User user = mapper.responseUserDTOToUser(userDto);
+        User user = getUserById(id);
 
         user.setStatus(Status.ATIVO);
         repository.save(user);
