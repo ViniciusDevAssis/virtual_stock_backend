@@ -31,5 +31,8 @@ A aplicação estará configurada para rodar no **perfil de teste**, utilizando 
    http://localhost:8080
    ```
 
+### Extra
+- [Diagrama do Modelo de Dominio](https://pt.scribd.com/document/834321933/Modelo-de-Dominio)
+
 Feito por [ViniciusDevAssis](https://github.com/ViniciusDevAssis) 🚀
 
