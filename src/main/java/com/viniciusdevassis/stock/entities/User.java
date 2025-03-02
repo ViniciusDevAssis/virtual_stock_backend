@@ -1,5 +1,6 @@
 package com.viniciusdevassis.stock.entities;
 
+import com.viniciusdevassis.stock.enums.Status;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -13,15 +14,18 @@ public class User {
     private String name;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public User() {
     }
 
-    public User(Long id, String name, String email, String password) {
+    public User(Long id, String name, String email, String password, Status status) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.status = status;
     }
 
     public Long getId() {
@@ -50,6 +54,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
