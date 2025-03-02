@@ -1,9 +1,18 @@
 package com.viniciusdevassis.stock.dto;
 
+import com.viniciusdevassis.stock.validators.EmailAvailable;
+import com.viniciusdevassis.stock.validators.Name;
+import com.viniciusdevassis.stock.validators.Password;
+
 public class CreateUserDTO {
 
+    @Name
     private String name;
+
+    @EmailAvailable
     private String email;
+
+    @Password
     private String password;
 
     public CreateUserDTO() {
