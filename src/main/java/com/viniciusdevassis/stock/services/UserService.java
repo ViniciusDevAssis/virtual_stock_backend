@@ -11,6 +11,7 @@ import com.viniciusdevassis.stock.mapper.UserMapper;
 import com.viniciusdevassis.stock.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,36 +33,48 @@ public class UserService {
         return repository.findById(id).orElseThrow(() -> new UserNotExistsException(Errors.UEE101));
     }
 
+    @Transactional
     public ResponseUserDTO createUser(CreateUserDTO dto){
         User user = mapper.createUserDTOToUser(dto);
         User savedUser = repository.save(user);
         return mapper.userToResponseUserDTO(savedUser);
     }
 
+    @Transactional
     public ResponseUserDTO updateUser(Long id, UpdateUserDTO dto){
         User user = getUserById(id);
 
-        user.setName(dto.getName() != null ? dto.getName() : user.getName());
-        user.setEmail(dto.getEmail() != null ? dto.getEmail() : user.getEmail());
-        user.setPassword(dto.getPassword() != null ? dto.getPassword() : user.getPassword());
+        user.setName(
+                dto.getName() != null && !dto.getName().isBlank() ? dto.getName() : user.getName()
+        );
+        user.setEmail(
+                dto.getEmail() != null ? dto.getEmail() : user.getEmail()
+        );
+        user.setPassword(
+                dto.getPassword() != null && !dto.getPassword().isBlank() ? dto.getPassword() : user.getPassword()
+        );
 
         User updatedUser = repository.save(user);
         return mapper.userToResponseUserDTO(updatedUser);
 
     }
 
+    @Transactional
     public void deactivateUserById(Long id){
         User user = getUserById(id);
-
-        user.setStatus(Status.INATIVO);
-        repository.save(user);
+        if (user.getStatus() != Status.INATIVO) {
+            user.setStatus(Status.INATIVO);
+            repository.save(user);
+        }
     }
 
+    @Transactional
     public void activateUserById(Long id) {
         User user = getUserById(id);
-
-        user.setStatus(Status.ATIVO);
-        repository.save(user);
+        if (user.getStatus() != Status.ATIVO) {
+            user.setStatus(Status.ATIVO);
+            repository.save(user);
+        }
     }
 
 }
