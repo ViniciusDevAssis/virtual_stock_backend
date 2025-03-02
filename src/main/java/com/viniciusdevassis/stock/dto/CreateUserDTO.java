@@ -3,15 +3,21 @@ package com.viniciusdevassis.stock.dto;
 import com.viniciusdevassis.stock.validators.EmailAvailable;
 import com.viniciusdevassis.stock.validators.Name;
 import com.viniciusdevassis.stock.validators.Password;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateUserDTO {
 
+    @NotBlank(message = "O campo nome é obrigatório")
     @Name
     private String name;
 
+    @NotBlank(message = "O campo email é obrigatório")
     @EmailAvailable
     private String email;
 
+    @NotBlank(message = "O campo senha é obrigatório")
     @Password
     private String password;
 
