@@ -65,4 +65,10 @@ public class UserController {
         service.activateUserById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<ResponseUserDTO> getUserByEmail(@PathVariable String email) {
+        ResponseUserDTO user = service.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
 }

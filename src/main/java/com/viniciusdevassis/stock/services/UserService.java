@@ -76,4 +76,9 @@ public class UserService {
         }
     }
 
+    public ResponseUserDTO getUserByEmail(String email){
+        User user = repository.findByEmail(email).orElseThrow(() -> new UserNotExistsException(Errors.UEE102));
+        return mapper.userToResponseUserDTO(user);
+    }
+
 }
