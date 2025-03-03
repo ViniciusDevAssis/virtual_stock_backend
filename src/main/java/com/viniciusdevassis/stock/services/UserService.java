@@ -1,6 +1,6 @@
 package com.viniciusdevassis.stock.services;
 
-import com.viniciusdevassis.stock.controllers.advice.exceptions.UserNotExistsException;
+import com.viniciusdevassis.stock.controllers.advice.exceptions.UserNotFoundException;
 import com.viniciusdevassis.stock.dto.CreateUserDTO;
 import com.viniciusdevassis.stock.dto.ResponseUserDTO;
 import com.viniciusdevassis.stock.dto.UpdateUserDTO;
@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public User getUserById(Long id){
-        return repository.findById(id).orElseThrow(() -> new UserNotExistsException(Errors.UEE101));
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException(Errors.UEE101));
     }
 
     @Transactional
@@ -61,8 +61,8 @@ public class UserService {
     @Transactional
     public void deactivateUserById(Long id){
         User user = getUserById(id);
-        if (user.getStatus() != Status.INATIVO) {
-            user.setStatus(Status.INATIVO);
+        if (user.getStatus() != Status.INACTIVE) {
+            user.setStatus(Status.INACTIVE);
             repository.save(user);
         }
     }
@@ -70,14 +70,14 @@ public class UserService {
     @Transactional
     public void activateUserById(Long id) {
         User user = getUserById(id);
-        if (user.getStatus() != Status.ATIVO) {
-            user.setStatus(Status.ATIVO);
+        if (user.getStatus() != Status.ACTIVE) {
+            user.setStatus(Status.ACTIVE);
             repository.save(user);
         }
     }
 
     public ResponseUserDTO getUserByEmail(String email){
-        User user = repository.findByEmail(email).orElseThrow(() -> new UserNotExistsException(Errors.UEE102));
+        User user = repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(Errors.UEE102));
         return mapper.userToResponseUserDTO(user);
     }
 

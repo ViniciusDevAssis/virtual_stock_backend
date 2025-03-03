@@ -1,8 +1,8 @@
 package com.viniciusdevassis.stock.enums;
 
 public enum Status {
-    ATIVO("ATIVO"),
-    INATIVO("INATIVO");
+    ACTIVE("ACTIVE"),
+    INACTIVE("INACTIVE");
 
     private String value;
 

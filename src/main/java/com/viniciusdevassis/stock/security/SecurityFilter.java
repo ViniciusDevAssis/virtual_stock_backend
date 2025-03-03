@@ -1,6 +1,6 @@
 package com.viniciusdevassis.stock.security;
 
-import com.viniciusdevassis.stock.controllers.advice.exceptions.UserNotExistsException;
+import com.viniciusdevassis.stock.controllers.advice.exceptions.UserNotFoundException;
 import com.viniciusdevassis.stock.entities.User;
 import com.viniciusdevassis.stock.enums.Errors;
 import com.viniciusdevassis.stock.repositories.UserRepository;
@@ -32,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = service.validateToken(token);
 
         if(login != null){
-            User user = repository.findByEmail(login).orElseThrow(() -> new UserNotExistsException(Errors.UEE102));
+            User user = repository.findByEmail(login).orElseThrow(() -> new UserNotFoundException(Errors.UEE102));
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);

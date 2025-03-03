@@ -6,25 +6,28 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_users")
-public class User {
+@Table(name = "tb_products")
+public class Product {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
-    private String password;
+    private String description;
+    private Double price;
+    private Integer inventory;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 
-    public User() {
+    public Product() {
     }
 
-    public User(Long id, String name, String email, String password, Status status) {
+    public Product(Long id, String name, String description, Double price, Integer inventory, Status status) {
         this.id = id;
         this.name = name;
-        this.email = email;
-        this.password = password;
+        this.description = description;
+        this.price = price;
+        this.inventory = inventory;
         this.status = status;
     }
 
@@ -40,20 +43,28 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getPassword() {
-        return password;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 
     public Status getStatus() {
@@ -68,8 +79,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
     }
 
     @Override
