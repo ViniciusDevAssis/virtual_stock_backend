@@ -1,23 +1,33 @@
 package com.viniciusdevassis.stock.controllers;
 
-import com.viniciusdevassis.stock.dto.LoginRequestDTO;
-import com.viniciusdevassis.stock.dto.RegisterRequestDTO;
-import com.viniciusdevassis.stock.dto.ResponseDTO;
+import com.viniciusdevassis.stock.dto.*;
 import com.viniciusdevassis.stock.entities.User;
+import com.viniciusdevassis.stock.mapper.UserMapper;
 import com.viniciusdevassis.stock.repositories.UserRepository;
 import com.viniciusdevassis.stock.security.TokenService;
+import com.viniciusdevassis.stock.services.UserService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    @Autowired
+    private UserService service;
+
+    @Autowired
+    private UserMapper mapper;
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -41,19 +51,15 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequestDTO body){
-        Optional<User> user = this.repository.findByEmail(body.email());
-
-        if(user.isEmpty()) {
-            User newUser = new User();
-            newUser.setPassword(passwordEncoder.encode(body.password()));
-            newUser.setEmail(body.email());
-            newUser.setName(body.name());
-            this.repository.save(newUser);
-
-            String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new ResponseDTO(newUser.getName(), token));
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<ResponseDTO> registerUser(@Valid @RequestBody CreateUserDTO body){
+        body.setPassword(passwordEncoder.encode(body.getPassword()));
+        ResponseUserDTO user = service.createUser(body);
+        User createdUser = mapper.responseUserDTOToUser(user);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/users/{id}")
+                .buildAndExpand(createdUser.getId()).toUri();
+        String token = this.tokenService.generateToken(createdUser);
+        ResponseDTO response = new ResponseDTO(createdUser.getName(), token);
+        return ResponseEntity.created(uri).body(response);
     }
 }

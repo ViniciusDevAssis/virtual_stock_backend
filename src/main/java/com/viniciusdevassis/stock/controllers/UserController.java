@@ -40,17 +40,8 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @PostMapping
-    public ResponseEntity<ResponseUserDTO> createUser(@Valid @RequestBody CreateUserDTO dto) {
-        ResponseUserDTO createdUser = service.createUser(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdUser.getId()).toUri();
-        return ResponseEntity.created(uri).body(createdUser);
-    }
-
     @PatchMapping("/update/{id}")
-    public ResponseEntity<ResponseUserDTO> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO dto) {
+    public ResponseEntity<ResponseUserDTO> updateUser(@Valid @PathVariable Long id, @RequestBody UpdateUserDTO dto) {
         ResponseUserDTO updatedUser = service.updateUser(id, dto);
         return ResponseEntity.ok(updatedUser);
     }
