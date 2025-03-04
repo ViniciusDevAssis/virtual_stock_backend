@@ -4,6 +4,7 @@ public enum Errors {
 
     // SNE-0XX para Spring native errors
     SNE001("SNE-001", "Não é possível registrar o usuário porque há campos vazios ou inválidos"),
+    SNE002("SNE-002", "Usuario já possui um produto cadastrado com esse nome"),
 
     // UEE-1XX para user entity errors
     UEE101("UEE-101", "Nenhum usuário encontrado com o id informado!"),

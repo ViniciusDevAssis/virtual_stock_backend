@@ -6,11 +6,15 @@ import com.viniciusdevassis.stock.dto.CreateProductDTO;
 import com.viniciusdevassis.stock.dto.ResponseProductDTO;
 import com.viniciusdevassis.stock.dto.UpdateProductDTO;
 import com.viniciusdevassis.stock.entities.Product;
+import com.viniciusdevassis.stock.entities.User;
 import com.viniciusdevassis.stock.enums.Errors;
 import com.viniciusdevassis.stock.enums.Status;
 import com.viniciusdevassis.stock.mapper.ProductMapper;
 import com.viniciusdevassis.stock.repositories.ProductRepository;
+import com.viniciusdevassis.stock.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
     
     @Autowired
     private ProductMapper mapper;
@@ -35,7 +42,10 @@ public class ProductService {
 
     @Transactional
     public ResponseProductDTO createProduct(CreateProductDTO dto){
+        Long userId = getUserIdFromToken();
+        User user = userRepository.findById(userId).orElse(null);
         Product product = mapper.createProductDTOToProduct(dto);
+        product.setUser(user);
         Product savedProduct = repository.save(product);
         return mapper.productToResponseProductDTO(savedProduct);
     }
@@ -82,5 +92,15 @@ public class ProductService {
 
     private Product getProductByName(String name){
         return repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNameNotFoundException(Errors.PEE202));
+    }
+
+    private Long getUserIdFromToken() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            return ((User) principal).getId();
+        } else {
+            return Long.parseLong(principal.toString());
+        }
     }
 }

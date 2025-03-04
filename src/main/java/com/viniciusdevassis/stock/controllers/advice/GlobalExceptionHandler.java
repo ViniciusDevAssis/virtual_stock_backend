@@ -7,6 +7,7 @@ import com.viniciusdevassis.stock.controllers.advice.exceptions.UserIdNotFoundEx
 import com.viniciusdevassis.stock.controllers.advice.responses.ErrorResponse;
 import com.viniciusdevassis.stock.controllers.advice.responses.FieldErrorResponse;
 import com.viniciusdevassis.stock.enums.Errors;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -90,5 +91,20 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(
+            DataIntegrityViolationException ex,
+            WebRequest request
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                Errors.SNE002.getMessage(),
+                Errors.SNE002.getCode(),
+                null
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
