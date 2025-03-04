@@ -5,6 +5,7 @@ import com.viniciusdevassis.stock.dto.ResponseUserDTO;
 import com.viniciusdevassis.stock.dto.UpdateUserDTO;
 import com.viniciusdevassis.stock.entities.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public interface UserMapper {
     //Converter um único user
     CreateUserDTO userToCreateUserDTO(User user);
     User createUserDTOToUser(CreateUserDTO dto);
+    @Mapping(source = "id", target = "id")
     ResponseUserDTO userToResponseUserDTO(User user);
     User responseUserDTOToUser(ResponseUserDTO dto);
     UpdateUserDTO userToUpdateUserDTO(User user);

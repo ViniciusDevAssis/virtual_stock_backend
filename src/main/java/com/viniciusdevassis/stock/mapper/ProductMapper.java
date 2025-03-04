@@ -5,6 +5,7 @@ import com.viniciusdevassis.stock.dto.ResponseProductDTO;
 import com.viniciusdevassis.stock.dto.UpdateProductDTO;
 import com.viniciusdevassis.stock.entities.Product;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface ProductMapper {
     //Converter um único product
     CreateProductDTO productToCreateProductDTO(Product product);
     Product createProductDTOToProduct(CreateProductDTO dto);
+    @Mapping(source = "id", target = "id")
     ResponseProductDTO productToResponseProductDTO(Product product);
     Product responseProductDTOToProduct(ResponseProductDTO dto);
     UpdateProductDTO productToUpdateProductDTO(Product product);
