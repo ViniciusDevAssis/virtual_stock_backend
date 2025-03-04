@@ -11,6 +11,7 @@ import com.viniciusdevassis.stock.enums.Status;
 import com.viniciusdevassis.stock.mapper.UserMapper;
 import com.viniciusdevassis.stock.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,9 @@ public class UserService {
 
     @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     public List<User> getAllUsers(){
         return repository.findAll();
@@ -51,7 +55,7 @@ public class UserService {
                 dto.getEmail() != null ? dto.getEmail() : user.getEmail()
         );
         user.setPassword(
-                dto.getPassword() != null && !dto.getPassword().isBlank() ? dto.getPassword() : user.getPassword()
+                dto.getPassword() != null && !dto.getPassword().isBlank() ? encoder.encode(dto.getPassword()) : user.getPassword()
         );
 
         User updatedUser = repository.save(user);

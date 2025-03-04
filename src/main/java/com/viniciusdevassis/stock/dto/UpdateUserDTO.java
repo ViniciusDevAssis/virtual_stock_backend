@@ -3,12 +3,13 @@ package com.viniciusdevassis.stock.dto;
 import com.viniciusdevassis.stock.validators.EmailAvailable;
 import com.viniciusdevassis.stock.validators.Name;
 import com.viniciusdevassis.stock.validators.Password;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 public class UpdateUserDTO {
 
     @Name
     private String name;
-
 
     @EmailAvailable
     private String email;
