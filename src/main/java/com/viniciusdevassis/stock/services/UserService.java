@@ -85,5 +85,4 @@ public class UserService {
         User user = repository.findByEmail(email).orElseThrow(() -> new UserEmailNotFoundException(Errors.UEE102));
         return mapper.userToResponseUserDTO(user);
     }
-
 }

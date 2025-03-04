@@ -28,6 +28,9 @@ public class ProductService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
     
     @Autowired
     private ProductMapper mapper;
@@ -88,6 +91,12 @@ public class ProductService {
             product.setStatus(Status.ACTIVE);
             repository.save(product);
         }
+    }
+
+    public List<Product> getProductsByUser(){
+        Long userId = getUserIdFromToken();
+        User user = userService.getUserById(userId);
+        return user.getProducts();
     }
 
     private Product getProductByName(String name){

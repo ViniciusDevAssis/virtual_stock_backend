@@ -28,8 +28,8 @@ public class ProductController {
     private ProductMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<ResponseProductDTO>> getAllProducts(){
-        List<Product> products = service.getAllProducts();
+    public ResponseEntity<List<ResponseProductDTO>> getProductsByUser(){
+        List<Product> products = service.getProductsByUser();
         List<ResponseProductDTO> response = mapper.productsToListDTO(products);
         return ResponseEntity.ok(response);
     }

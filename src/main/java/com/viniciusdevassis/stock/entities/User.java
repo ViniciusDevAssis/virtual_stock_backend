@@ -82,6 +82,10 @@ public class User implements UserDetails {
         this.status = status;
     }
 
+    public List<Product> getProducts() {
+        return this.products;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,8 +99,6 @@ public class User implements UserDetails {
         return Objects.hash(id);
     }
 
-
-    // Métodos de controle de acesso (pode personalizar conforme necessário)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null; // Aqui você pode retornar roles/permissões se necessário
