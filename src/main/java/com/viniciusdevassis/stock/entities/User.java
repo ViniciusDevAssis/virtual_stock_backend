@@ -3,6 +3,8 @@ package com.viniciusdevassis.stock.entities;
 import com.viniciusdevassis.stock.enums.Status;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +18,10 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
 
     public User() {
     }

@@ -1,13 +1,14 @@
 package com.viniciusdevassis.stock.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateProductDTO {
 
     @NotBlank(message = "O campo nome é obrigatório")
     private String name;
     private String description;
-    @NotBlank(message = "O campo preço é obrigatório")
+    @NotNull(message = "O campo preço é obrigatório")
     private Double price;
 
     public CreateProductDTO() {

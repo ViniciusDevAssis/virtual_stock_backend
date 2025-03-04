@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_products")
+@Table(name = "tb_products", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "name"}))
 public class Product {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +18,22 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Integer inventory, Status status) {
+    public Product(Long id, String name, String description, Double price, Integer inventory, Status status, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.inventory = inventory;
         this.status = status;
+        this.user = user;
     }
 
     public Long getId() {
@@ -76,6 +82,14 @@ public class Product {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
