@@ -1,6 +1,7 @@
 package com.viniciusdevassis.stock.services;
 
-import com.viniciusdevassis.stock.controllers.advice.exceptions.ProductNotFoundException;
+import com.viniciusdevassis.stock.controllers.advice.exceptions.ProductIdNotFoundException;
+import com.viniciusdevassis.stock.controllers.advice.exceptions.ProductNameNotFoundException;
 import com.viniciusdevassis.stock.dto.CreateProductDTO;
 import com.viniciusdevassis.stock.dto.ResponseProductDTO;
 import com.viniciusdevassis.stock.dto.UpdateProductDTO;
@@ -29,7 +30,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id){
-        return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(Errors.PEE201));
+        return repository.findById(id).orElseThrow(() -> new ProductIdNotFoundException(Errors.PEE201));
     }
 
     @Transactional
@@ -80,6 +81,6 @@ public class ProductService {
     }
 
     private Product getProductByName(String name){
-        return repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNotFoundException(Errors.PEE202));
+        return repository.findByNameIgnoreCase(name).orElseThrow(() -> new ProductNameNotFoundException(Errors.PEE202));
     }
 }

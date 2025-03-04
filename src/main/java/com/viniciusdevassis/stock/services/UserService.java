@@ -1,6 +1,7 @@
 package com.viniciusdevassis.stock.services;
 
-import com.viniciusdevassis.stock.controllers.advice.exceptions.UserNotFoundException;
+import com.viniciusdevassis.stock.controllers.advice.exceptions.UserEmailNotFoundException;
+import com.viniciusdevassis.stock.controllers.advice.exceptions.UserIdNotFoundException;
 import com.viniciusdevassis.stock.dto.CreateUserDTO;
 import com.viniciusdevassis.stock.dto.ResponseUserDTO;
 import com.viniciusdevassis.stock.dto.UpdateUserDTO;
@@ -29,7 +30,7 @@ public class UserService {
     }
 
     public User getUserById(Long id){
-        return repository.findById(id).orElseThrow(() -> new UserNotFoundException(Errors.UEE101));
+        return repository.findById(id).orElseThrow(() -> new UserIdNotFoundException(Errors.UEE101));
     }
 
     @Transactional
@@ -77,7 +78,7 @@ public class UserService {
     }
 
     public ResponseUserDTO getUserByEmail(String email){
-        User user = repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(Errors.UEE102));
+        User user = repository.findByEmail(email).orElseThrow(() -> new UserEmailNotFoundException(Errors.UEE102));
         return mapper.userToResponseUserDTO(user);
     }
 

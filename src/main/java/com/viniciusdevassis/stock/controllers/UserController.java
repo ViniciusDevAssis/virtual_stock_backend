@@ -6,6 +6,7 @@ import com.viniciusdevassis.stock.dto.UpdateUserDTO;
 import com.viniciusdevassis.stock.entities.User;
 import com.viniciusdevassis.stock.mapper.UserMapper;
 import com.viniciusdevassis.stock.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "id/{id}")
     public ResponseEntity<ResponseUserDTO> getUserById(@PathVariable Long id){
         User user = service.getUserById(id);
         ResponseUserDTO userDTO = mapper.userToResponseUserDTO(user);
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseUserDTO> createUser(@RequestBody CreateUserDTO dto) {
+    public ResponseEntity<ResponseUserDTO> createUser(@Valid @RequestBody CreateUserDTO dto) {
         ResponseUserDTO createdUser = service.createUser(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -48,25 +49,25 @@ public class UserController {
         return ResponseEntity.created(uri).body(createdUser);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<ResponseUserDTO> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO dto) {
         ResponseUserDTO updatedUser = service.updateUser(id, dto);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @PatchMapping("/{id}/deactivate")
+    @PatchMapping("/deactivate/{id}")
     public ResponseEntity<Void> deactivateUser(@PathVariable Long id) {
         service.deactivateUserById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/activate")
+    @PatchMapping("/activate/{id}")
     public ResponseEntity<Void> activateUser(@PathVariable Long id) {
         service.activateUserById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("email/{email}")
     public ResponseEntity<ResponseUserDTO> getUserByEmail(@PathVariable String email) {
         ResponseUserDTO user = service.getUserByEmail(email);
         return ResponseEntity.ok(user);
