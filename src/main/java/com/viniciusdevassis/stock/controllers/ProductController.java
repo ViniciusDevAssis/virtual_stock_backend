@@ -29,7 +29,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ResponseProductDTO>> getProductsByUser(){
-        List<Product> products = service.getProductsByUser();
+        List<Product> products = service.getActiveProductsByUser();
         List<ResponseProductDTO> response = mapper.productsToListDTO(products);
         return ResponseEntity.ok(response);
     }

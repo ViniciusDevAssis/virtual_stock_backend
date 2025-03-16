@@ -93,10 +93,14 @@ public class ProductService {
         }
     }
 
-    public List<Product> getProductsByUser(){
+    private List<Product> getProductsByUser(){
         Long userId = getUserIdFromToken();
         User user = userService.getUserById(userId);
         return user.getProducts();
+    }
+
+    public List<Product> getActiveProductsByUser(){
+        return getProductsByUser().stream().filter(product -> product.getStatus().equals(Status.ACTIVE)).toList();
     }
 
     private Product getProductByName(String name){
