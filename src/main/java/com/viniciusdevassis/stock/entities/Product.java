@@ -14,7 +14,7 @@ public class Product {
     private String name;
     private String description = "";
     private Double price;
-    private Integer inventory = 0;
+    private Integer inventory;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 
@@ -34,6 +34,13 @@ public class Product {
         this.inventory = inventory;
         this.status = status;
         this.user = user;
+    }
+
+    @PrePersist
+    public void ensureInventory() {
+        if (inventory == null) {
+            this.inventory = 0;
+        }
     }
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package com.viniciusdevassis.stock.dto;
 
+import com.viniciusdevassis.stock.validators.IntegerOnly;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,6 +11,9 @@ public class CreateProductDTO {
     private String description;
     @NotNull(message = "O campo preço é obrigatório")
     private Double price;
+
+    @IntegerOnly
+    private Integer inventory;
 
     public CreateProductDTO() {
     }
@@ -42,5 +46,13 @@ public class CreateProductDTO {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
     }
 }
